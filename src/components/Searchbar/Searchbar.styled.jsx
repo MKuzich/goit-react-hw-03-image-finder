@@ -1,5 +1,4 @@
 import styled from 'styled-components';
-import { Form, Field } from 'formik';
 
 export const SearchBarSection = styled.section`
   top: 0;
@@ -20,7 +19,7 @@ export const SearchBarSection = styled.section`
     0px 4px 5px 0px rgba(0, 0, 0, 0.14), 0px 1px 10px 0px rgba(0, 0, 0, 0.12);
 `;
 
-export const SearchForm = styled(Form)`
+export const SearchForm = styled.form`
   display: flex;
   align-items: center;
   width: 100%;
@@ -35,7 +34,7 @@ export const SearchBtn = styled.button`
   width: 48px;
   height: 48px;
   border: 0;
-  background-image: url('https://image.flaticon.com/icons/svg/149/149852.svg');
+  background-image: url('./images/icons8-search.svg');
   background-size: 40%;
   background-repeat: no-repeat;
   background-position: center;
@@ -48,7 +47,7 @@ export const SearchBtn = styled.button`
   }
 `;
 
-export const Input = styled(Field)`
+export const Input = styled.input`
   display: inline-block;
   width: 100%;
   font: inherit;
@@ -61,4 +60,16 @@ export const Input = styled(Field)`
     font: inherit;
     font-size: 18px;
   }
+`;
+
+export const Text = styled.span`
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  clip-path: inset(50%);
+  border: 0;
 `;
