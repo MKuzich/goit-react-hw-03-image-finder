@@ -19,27 +19,26 @@ export class App extends PureComponent {
   };
 
   async componentDidUpdate(prevProps, prevState) {
-    this.setState({ isLoading: true });
+    if (prevState.isLoading === true) {
+      this.setState({ isLoading: true });
+    }
 
-    const receivedPictures = await getPictures(
-      this.state.request,
-      this.state.page
-    );
-    console.log(receivedPictures);
-    if (
-      prevState.request !== this.state.request ||
-      prevState.page !== this.state.page
-    ) {
+    const { request, page } = this.state;
+    const receivedPictures = await getPictures(request, page);
+
+    if (prevState.request !== request || prevState.page !== page) {
       this.setState(prevState => {
-        if (
-          prevState.request !== this.state.request ||
-          prevState.response === null
-        ) {
+        console.log(prevState);
+        if (prevState.response === null || prevState.request !== request) {
+          console.log('doljno novoe bit');
+
           return { response: receivedPictures };
         }
         return { response: [...prevState.response, ...receivedPictures] };
       });
     }
+
+    console.log(this.state);
 
     if (prevState.isLoading === true) {
       this.setState({ isLoading: false });
