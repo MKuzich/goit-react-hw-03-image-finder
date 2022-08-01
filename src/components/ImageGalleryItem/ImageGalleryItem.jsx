@@ -1,9 +1,18 @@
 import { Item, Image } from './ImageGalleryItem.styled';
 import PropTypes from 'prop-types';
 
-export const ImageGalleryItem = ({ url, name }) => {
+export const ImageGalleryItem = ({
+  onClickShowModal,
+  id,
+  url,
+  name,
+  originalUrl,
+}) => {
+  function onClickHandler() {
+    onClickShowModal(originalUrl, name);
+  }
   return (
-    <Item>
+    <Item onClick={onClickHandler}>
       <Image src={url} alt={name} />
     </Item>
   );

@@ -18,6 +18,10 @@ export class App extends PureComponent {
     showModal: null,
   };
 
+  onClickShowModal = (url, name) => {
+    this.setState({ showModal: { url, name } });
+  };
+
   async componentDidUpdate(prevProps, prevState) {
     if (prevState.isLoading === true) {
       this.setState({ isLoading: true });
@@ -29,6 +33,7 @@ export class App extends PureComponent {
     if (prevState.request !== request || prevState.page !== page) {
       this.setState(prevState => {
         console.log(prevState);
+        console.log(this.state);
         if (prevState.response === null || prevState.request !== request) {
           console.log('doljno novoe bit');
 
@@ -37,8 +42,6 @@ export class App extends PureComponent {
         return { response: [...prevState.response, ...receivedPictures] };
       });
     }
-
-    console.log(this.state);
 
     if (prevState.isLoading === true) {
       this.setState({ isLoading: false });
@@ -72,7 +75,9 @@ export class App extends PureComponent {
             response.map(({ id, webformatURL, tags, largeImageURL }) => {
               return (
                 <ImageGalleryItem
+                  onClickShowModal={this.onClickShowModal}
                   key={id}
+                  id={id}
                   originalUrl={largeImageURL}
                   url={webformatURL}
                   name={tags}
@@ -85,8 +90,8 @@ export class App extends PureComponent {
 
         {this.state.showModal && (
           <Modal
-            url={this.state.showModal.largeImageURL}
-            name={this.state.showModal.tags}
+            url={this.state.showModal.url}
+            name={this.state.showModal.name}
           />
         )}
       </Wrapper>
