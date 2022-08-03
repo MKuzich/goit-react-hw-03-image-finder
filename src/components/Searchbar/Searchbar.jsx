@@ -5,6 +5,7 @@ import {
   Input,
   Text,
 } from './Searchbar.styled';
+import { AiOutlineSearch } from 'react-icons/ai';
 import PropTypes from 'prop-types';
 
 export const Searchbar = ({ onSubmit }) => {
@@ -18,7 +19,7 @@ export const Searchbar = ({ onSubmit }) => {
     <SearchBarSection>
       <SearchForm onSubmit={handleSubmit}>
         <SearchBtn type="submit">
-          <Text>Search</Text>
+          <AiOutlineSearch />
         </SearchBtn>
         <Input
           type="text"
