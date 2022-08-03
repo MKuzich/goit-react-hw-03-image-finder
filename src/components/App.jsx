@@ -13,40 +13,30 @@ export class App extends PureComponent {
   state = {
     page: 1,
     request: null,
-    response: null,
+    response: [],
     isLoading: false,
     showModal: null,
   };
+
+  async componentDidUpdate(_, prevState) {
+    const { request, page } = this.state;
+    if (prevState.request !== request || prevState.page !== page) {
+      this.setState({ isLoading: true });
+      const receivedPictures = await getPictures(request, page);
+      this.setState(prevState => {
+        return { response: [...prevState.response, ...receivedPictures] };
+      });
+      this.setState({ isLoading: false });
+    }
+  }
 
   onClickShowModal = (url, name) => {
     this.setState({ showModal: { url, name } });
   };
 
-  async componentDidUpdate(prevProps, prevState) {
-    if (prevState.isLoading === true) {
-      this.setState({ isLoading: true });
-    }
-
-    const { request, page } = this.state;
-    const receivedPictures = await getPictures(request, page);
-
-    if (prevState.request !== request || prevState.page !== page) {
-      this.setState(prevState => {
-        console.log(prevState);
-        console.log(this.state);
-        if (prevState.response === null || prevState.request !== request) {
-          console.log('doljno novoe bit');
-
-          return { response: receivedPictures };
-        }
-        return { response: [...prevState.response, ...receivedPictures] };
-      });
-    }
-
-    if (prevState.isLoading === true) {
-      this.setState({ isLoading: false });
-    }
-  }
+  onClickCloseModal = () => {
+    this.setState({ showModal: null });
+  };
 
   increasePage = () => {
     this.setState(prevState => {
@@ -55,16 +45,14 @@ export class App extends PureComponent {
   };
 
   onSubmit = request => {
-    this.setState(prevState => {
-      if (prevState.request === request) {
-        return { page: prevState.page + 1 };
-      }
-      return { request, page: 1 };
-    });
+    if (this.state.request !== request) {
+      this.setState({ response: [], request });
+    }
+    this.setState({ request });
   };
 
   render() {
-    const { response, isLoading } = this.state;
+    const { response, isLoading, showModal } = this.state;
 
     return (
       <Wrapper>
@@ -77,7 +65,6 @@ export class App extends PureComponent {
                 <ImageGalleryItem
                   onClickShowModal={this.onClickShowModal}
                   key={id}
-                  id={id}
                   originalUrl={largeImageURL}
                   url={webformatURL}
                   name={tags}
@@ -86,12 +73,13 @@ export class App extends PureComponent {
             })}
         </ImageGallery>
         {isLoading && <Loader />}
-        {response && <Button loadMore={this.increasePage} />}
+        {response.length > 0 && <Button loadMore={this.increasePage} />}
 
-        {this.state.showModal && (
+        {showModal && (
           <Modal
-            url={this.state.showModal.url}
-            name={this.state.showModal.name}
+            closeModal={this.onClickCloseModal}
+            url={showModal.url}
+            name={showModal.name}
           />
         )}
       </Wrapper>

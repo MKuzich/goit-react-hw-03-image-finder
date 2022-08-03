@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 
 export const ImageGalleryItem = ({
   onClickShowModal,
-  id,
   url,
   name,
   originalUrl,
@@ -21,4 +20,6 @@ export const ImageGalleryItem = ({
 ImageGalleryItem.propTypes = {
   url: PropTypes.string.isRequired,
   name: PropTypes.string.isRequired,
+  onClickShowModal: PropTypes.func.isRequired,
+  originalUrl: PropTypes.string.isRequired,
 };
