@@ -3,7 +3,6 @@ import {
   SearchForm,
   SearchBtn,
   Input,
-  Text,
 } from './Searchbar.styled';
 import { AiOutlineSearch } from 'react-icons/ai';
 import PropTypes from 'prop-types';
